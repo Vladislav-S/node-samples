@@ -1,1 +1,4 @@
 /node-another/node_modules/*
+/node-mongo/node_modules/*
+*.min.*
+*.woff*

@@ -1,0 +1,22 @@
+{
+  "name": "node-mongo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/app",
+  "types": "lib/app",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node lib/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/mongodb": "^2.2.9",
+    "@types/node": "^8.0.20",
+    "@types/nunjucks": "0.0.32",
+    "mongodb": "^2.2.31",
+    "nunjucks": "^3.0.1",
+    "typescript": "^2.4.2"
+  }
+}
