@@ -24,7 +24,7 @@ $(document).ready(()=>{
           console.log("success");
           console.log(data);
           var inTHtml = $("#tbody").html();
-          inTHtml += "<tr id='"+data._id+"'><td>"+data.faggotName+"</td><td>"+data.date+"</td></tr>";
+          inTHtml += "<tr id='"+data._id+"'><td>"+data.faggotName+"</td><td>"+data.date+"<button type='button' class='btn right' onclick='del(\""+data._id+"\")''>remove</button></td></tr>";
           $("#tbody").html(inTHtml);
         },
         error: (data)=>{
@@ -37,4 +37,19 @@ $(document).ready(()=>{
 
   });
 
+
+
 })
+
+function del(id){
+  console.log("delete: "+id);
+  $.ajax({
+    type: 'POST',
+    url: '/del',
+    data: {"_id": id},
+    success: (data)=>{
+      console.log("success delete");
+      $("#"+id).empty();
+    }
+  })
+}

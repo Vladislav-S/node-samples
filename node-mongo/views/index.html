@@ -40,7 +40,7 @@
           {% for item in result %}
             <tr id="{{ item._id }}">
               <td>{{item.faggotName}}</td>
-              <td>{{item.date}}</td>
+              <td>{{item.date}}<button type="button" class="btn right" onclick="del('{{ item._id }}')">remove</button></td>
             </tr>
           {% endfor %}
         {% endif %}

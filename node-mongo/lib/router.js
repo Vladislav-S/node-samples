@@ -8,6 +8,7 @@ const mongo = require("mongodb");
 const nj = require("nunjucks");
 nj.configure("views", { watch: true });
 var mongoClient = mongo.MongoClient;
+var ObjectID = mongo.ObjectID;
 var mongo_url = "mongodb://localhost:27017/node-mongo";
 var mimeTypes = {
     '.js': 'text/javascript',
@@ -65,20 +66,38 @@ function route(req, res) {
             var post = qs.parse(body);
             console.log(post);
             //add data to our db
-            mongoClient.connect(mongo_url, (err, db) => {
-                if (err)
-                    throw err;
-                db.collection("faggots").insertOne(post, (err, result) => {
+            if (_url.pathname == "/") {
+                mongoClient.connect(mongo_url, (err, db) => {
                     if (err)
                         throw err;
-                    console.log("1 doc inserted");
-                    //console.log(result.ops[0]);
-                    db.close();
-                    res.statusCode = 200;
-                    res.setHeader('Content-Type', 'application/json');
-                    res.end(JSON.stringify(post));
+                    db.collection("faggots").insertOne(post, (err, result) => {
+                        if (err)
+                            throw err;
+                        console.log("1 doc inserted");
+                        //console.log(result.ops[0]);
+                        db.close();
+                        res.statusCode = 200;
+                        res.setHeader('Content-Type', 'application/json');
+                        res.end(JSON.stringify(post));
+                    });
                 });
-            });
+            }
+            else if (_url.pathname == "/del") {
+                //TODO: to delete faggot from list
+                //console.log("delete");
+                mongoClient.connect(mongo_url, (err, db) => {
+                    if (err)
+                        throw err;
+                    post._id = new ObjectID(post._id);
+                    db.collection("faggots").deleteOne(post, (err, obj) => {
+                        if (err)
+                            throw err;
+                        console.log("success delited");
+                        res.statusCode = 200;
+                        res.end();
+                    });
+                });
+            }
         });
     }
 }
