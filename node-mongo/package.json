@@ -15,6 +15,7 @@
     "@types/mongodb": "^2.2.9",
     "@types/node": "^8.0.20",
     "@types/nunjucks": "0.0.32",
+    "chokidar": "^1.7.0",
     "mongodb": "^2.2.31",
     "nunjucks": "^3.0.1",
     "typescript": "^2.4.2"

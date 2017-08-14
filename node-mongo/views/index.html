@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/materialize.min.css">
+  <script src="js/jquery-3.2.1.min.js" charset="utf-8"></script>
+  <script src="js/materialize.min.js" charset="utf-8"></script>
+  <script src="js/script.js" charset="utf-8"></script>
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <h1 class="center">Faggot List</h1>
+    <form  id="mainForm">
+      <div class="row">
+        <div class="input-field col s6">
+          <input type="text" name="faggotName" value="" id="faggotName">
+          <label for="faggotName">Faggot Name</label>
+        </div>
+        <div class="input-field col s6">
+          <input type="text" name="date" id="date" class="datepicker" value="">
+          <label for="date">Date of Revenge</label>
+        </div>
+        <h6 class="center">
+          <input class="btn waves-effect waves-light" id="submitButton" type="submit" name="submitButton" value="add another faggot">
+        </h6>
+      </div>
+    </form>
+    <table id="table">
+      <thead>
+        <tr>
+          <th>Faggot Name</th>
+          <th>Date of Revenge</th>
+        </tr>
+      </thead>
+      <tbody id="tbody">
+        {% if result%}
+          {% for item in result %}
+            <tr id="{{ item._id }}">
+              <td>{{item.faggotName}}</td>
+              <td>{{item.date}}</td>
+            </tr>
+          {% endfor %}
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

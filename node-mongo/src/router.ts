@@ -2,6 +2,13 @@ import url = require('url'); //https://nodejs.org/api/url.html
 import fs = require('fs');
 import path = require('path');
 import qs = require('querystring');
+import mongo = require('mongodb');
+import nj = require('nunjucks');
+
+nj.configure("views", {watch: true});
+
+var mongoClient = mongo.MongoClient;
+var mongo_url = "mongodb://localhost:27017/node-mongo";
 
 var mimeTypes = {
   '.js': 'text/javascript',
@@ -23,7 +30,22 @@ export function route(req, res){
 
   if(req.method === "GET"){
     var pathName = _url.pathname;
-    if(pathName === "/") pathName = public_dir + "/index.html"
+    if(pathName === "/") {
+      //pathName = public_dir + "/index.html"
+      mongoClient.connect(mongo_url, (err, db)=>{
+        db.collection('faggots').find({}).toArray((err, result)=>{
+          if(err) throw err;
+          nj.render("index.html", {result}, (err, data)=>{
+            if (err) throw err;
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(data);
+          });
+        })
+
+
+      })
+      return;
+    }
     else pathName = public_dir + pathName;
     fs.readFile(pathName, (err, data) => {
       if(err) {
@@ -46,8 +68,19 @@ export function route(req, res){
     req.on('end', ()=>{
       var post = qs.parse(body);
       console.log(post);
-      res.statusCode = 200;
-      res.end();
+      //add data to our db
+      mongoClient.connect(mongo_url, (err, db)=>{
+        if(err) throw err;
+        db.collection("faggots").insertOne(post, (err, result)=>{
+          if (err) throw err;
+          console.log("1 doc inserted");
+          //console.log(result.ops[0]);
+          db.close();
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.end(JSON.stringify(post));
+        })
+      });
     })
 
   }

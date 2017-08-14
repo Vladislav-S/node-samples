@@ -22,6 +22,13 @@ $(document).ready(()=>{
         data: form.serialize(),
         success: (data) => {
           console.log("success");
+          console.log(data);
+          var inTHtml = $("#tbody").html();
+          inTHtml += "<tr id='"+data._id+"'><td>"+data.faggotName+"</td><td>"+data.date+"</td></tr>";
+          $("#tbody").html(inTHtml);
+        },
+        error: (data)=>{
+          console.log(data);
         }
       })
     }
